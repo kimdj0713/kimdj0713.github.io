@@ -461,7 +461,7 @@ function startApp() {
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   });
-  getValue(r[0]);
+  getValue('0xb90C09C6987e664B724278273F2AD6130440f1b5');
 }
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
