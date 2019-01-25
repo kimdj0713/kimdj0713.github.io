@@ -441,6 +441,7 @@ var abi = [
 ];
 var PLATokenContract;
 var PLAToken;
+var MyAddress;
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -460,8 +461,10 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
+    MyAddress = r[0]
   });
-  getValue('0xb90C09C6987e664B724278273F2AD6130440f1b5');
+  getValue(Myaddress);
+  //getValue('0xb90C09C6987e664B724278273F2AD6130440f1b5');
 }
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
