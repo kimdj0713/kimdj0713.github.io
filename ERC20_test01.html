@@ -22,6 +22,7 @@
   <li>총발행량 =====> <span id="totalSupply"></span>
       (현재블록: <span id="lastBlock" ></span>)</li>
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
+  <li>참조 어카운트 => <span id="accountAddrChk"></span></li>
   <li>내 잔액 ======> <span id="balanceOf"></span></li>
   <li><input id="newValue" type="text"><button onclick="setValue()">보내기</button>
       <div id="result"></div></li>
@@ -463,6 +464,7 @@ function startApp() {
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
     MyAddress = r;
+    document.getElementById('accountAddrChk').innerHTML = MyAddress;
   });
   getValue();
 }
