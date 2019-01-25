@@ -13,7 +13,7 @@
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test2 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test3 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
@@ -441,7 +441,8 @@ var abi = [
 ];
 var PLATokenContract;
 var PLAToken;
-var MyAddress = '0xb90C09C6987e664B724278273F2AD6130440f1b5';
+var MyAddress ;
+//var MyAddress = '0xb90C09C6987e664B724278273F2AD6130440f1b5';
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -461,7 +462,7 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
-    MyAddress = '0xb90C09C6987e664B724278273F2AD6130440f1b5';
+    MyAddress = r;
   });
   getValue();
   //getValue('0xb90C09C6987e664B724278273F2AD6130440f1b5');
