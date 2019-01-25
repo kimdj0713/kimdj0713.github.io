@@ -542,7 +542,7 @@ function contHistory() {
   
  //=========================================================
 function getValue() {
-  simpleStorage.get(function(e,r){
+  KDJ9testToken.get(function(e,r){
     document.getElementById('storedData').innerHTML=r.toNumber();
   });
   web3.eth.getBlockNumber(function(e,r){
@@ -552,7 +552,7 @@ function getValue() {
 function setValue() {
   var newValue = document.getElementById('newValue').value;
   var txid
-  simpleStorage.set(newValue, function(e,r){
+  KDJ9testToken.set(newValue, function(e,r){
     document.getElementById('result').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
     txid = r;
   });
