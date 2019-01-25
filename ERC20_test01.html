@@ -24,7 +24,7 @@
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
   <li>참조 어카운트 => <span id="accountAddrChk"></span></li>
   <li>내 잔액 ======> <span id="balanceOf"></span></li>
-  <li><input id="newValue" type="text"><button onclick="setValue()">보내기</button>
+  <li>토큰전송 =====> <input id="newValue" type="text"><button onclick="setValue()">보내기</button>
       <div id="result"></div></li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
   <li> <div id="historyResult"></div> </li>
@@ -442,7 +442,7 @@ var abi = [
 ];
 var PLATokenContract;
 var PLAToken;
-var MyAddress = '012';
+var MyAddress;
 //var MyAddress = '0xb90C09C6987e664B724278273F2AD6130440f1b5';
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
