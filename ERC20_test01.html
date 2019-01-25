@@ -13,7 +13,7 @@
   </style>
 </head>
 <body>
-<h3>ERC20 Token management Test <Ropsten Testnet></h3>
+<h3>PlayT(PLA) Token management Test <Ropsten Testnet></h3>
 <ul>
   <li>토큰주소 => <span id="contractAddr"></span>
     <input id="newContAddr" type="text">
@@ -543,7 +543,7 @@ function contHistory() {
  //=========================================================
 function getValue() {
   KDJ9testToken.get(function(e,r){
-    document.getElementById('storedData').innerHTML=r.toNumber();
+    document.getElementById('totalSupply').innerHTML=r.toNumber();
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
