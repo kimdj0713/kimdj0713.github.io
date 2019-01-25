@@ -7,13 +7,14 @@
   <title>ERC20 Token management Test</title>
   <style>
     body {margin-left:50px;}
-    #name {font-size:100%; margin-right:10px;}
-    #newContAddr {width: 100px; margin-right:10px;}
-    #newValue {width: 100px; margin-right:10px; text-align:right;}
+    #name {font-size:100%; margin-right:20px;}
+    #newContAddr {width: 100px; margin-right:20px;}
+    #toAccount {width: 100px; margin-right:20px;}
+    #newsendToken {width: 100px; margin-right:20px; text-align:right;}
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test6 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test1 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
@@ -24,7 +25,7 @@
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
   <li>참조 어카운트 => <span id="accountAddrChk"></span></li>
   <li>내 잔액 ======> <span id="balanceOf"></span></li>
-  <li>토큰전송 =====> <input id="toValue" type="text"> 에게 <input id="sendToken" type="text"><button onclick="setValue()"> PLA 보내기</button>
+  <li>토큰전송 =====> <input id="toAccount" type="text"> 에게 <input id="sendToken" type="text"><button onclick="setValue()"> PLA 보내기</button>
       <div id="result"></div></li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
   <li> <div id="historyResult"></div> </li>
@@ -442,7 +443,7 @@ var abi = [
 ];
 var PLATokenContract;
 var PLAToken;
-//var MyAddress = '0xb90C09C6987e664B724278273F2AD6130440f1b5';
+var MyAddress;
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -464,11 +465,8 @@ function startApp() {
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
     MyAddress = r;
-    MyAddress = '0xb90C09C6987e664B724278273F2AD6130440f1b5';
-    document.getElementById('accountAddrChk').innerHTML = MyAddress;
-    getValue(MyAddress);
+    getValue();
   });
-  getValue(MyAddress);
 }
 
 function getLink(addr) {
@@ -534,19 +532,17 @@ function contHistory() {
 	document.getElementById('historyProgress').innerHTML="";
 	}
   );
-  
-  
-  
+
 }
 
-function getValue(addr) {
+function getValue() {
   PLAToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
   });
-  PLAToken.balanceOf(addr,function(e,r){
+  PLAToken.balanceOf(MyAddress,function(e,r){
     document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
   });
 }
