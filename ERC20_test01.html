@@ -543,8 +543,8 @@ function contHistory() {
  //=========================================================
 function getValue() {
   KDJ9testToken.get(function(e,r){
-    totalToken = document.getElementById('totalSupply()').innerHTML=r.toNumber();
-    // document.getElementById('symbol').innerHTML=r;
+    // totalToken = document.getElementById('totalSupply()').innerHTML=r.toNumber();
+    document.getElementById('symbol').innerHTML=r;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
