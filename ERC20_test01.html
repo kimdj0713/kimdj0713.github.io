@@ -34,7 +34,6 @@
 <!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
 <script>
 var contractAddress = '0x83888D754BCA41Aed20197fCCb1359e10e4f2db0';
-var accountAddress;
 var abi = [
 	{
 		"constant": true,
@@ -538,7 +537,7 @@ function contHistory() {
   
   
  //=========================================================
-function getValue(var accountAddr) {
+function getValue(accountAddr) {
   KDJ9testToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
