@@ -544,7 +544,7 @@ function contHistory() {
 function getValue() {
   KDJ9testToken.totalSupply(function(e,r){
     // totalToken = document.getElementById('totalSupply()').innerHTML=r.toNumber();
-    document.getElementById('totalToken').innerHTML=r;
+    document.getElementById('totalToken').innerHTML=r.toNumber()/10**18;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
