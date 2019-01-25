@@ -18,10 +18,10 @@
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
     <button onClick="changeContAddr()">토큰주소변경</button>
-  <li>토큰명(심볼) => KDJ9 Token Test (KDJ9)</li>
+  <li>토큰명(심볼) ==> KDJ9 Token Test (KDJ9)</li>
   <li>총발행량 =====> <span id="totalSupply"></span>
       (현재블록: <span id="lastBlock" ></span>)</li>
-  <li>내 어카운트 ==> <span id="accountAddr"></span></li>
+  <li>내 어카운트 ===> <span id="accountAddr"></span></li>
   <li>내 잔액 ======> <span id="balanceOf"></span></li>
   <li><input id="newValue" type="text"><button onclick="setValue()">보내기</button>
       <div id="result"></div></li>
@@ -455,15 +455,13 @@ window.addEventListener('load', function() {
   startApp();
 });
 function startApp() {
-  var accountAddr
   KDJ9testTokenContract = web3.eth.contract(abi);
   KDJ9testToken = KDJ9testTokenContract.at(contractAddress);
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   });
-  accountAddr = r[0];
-  getValue(accountAddr);
+  getValue(r[0]);
 }
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
