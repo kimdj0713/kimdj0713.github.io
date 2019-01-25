@@ -14,7 +14,7 @@
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test1 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test2 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
   <li>토큰주소 =====> <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
@@ -542,7 +542,7 @@ function getValue(addr) {
     document.getElementById('lastBlock').innerHTML = r;
   });
   PLAToken.balanceOf(addr,function(e,r){
-    tempVar = r.toNumber()/10**18;
+    tempVar = r.toFixed(18)/10**18;
     document.getElementById('balanceOf').innerHTML=tempVar.toFixed(18);
   });
 }
