@@ -539,7 +539,7 @@ function getValue() {
   KDJ9testToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
-  KDJ9testToken.balanceOf(accountAddr,function(e,r){
+  KDJ9testToken.balanceOf(document.getElementById('accountAddr').value,function(e,r){
     document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
   });
   web3.eth.getBlockNumber(function(e,r){
