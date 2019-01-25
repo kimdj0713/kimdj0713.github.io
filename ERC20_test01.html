@@ -8,13 +8,13 @@
   <style>
     body {margin-left:50px;}
     #name {font-size:100%; margin-right:20px;}
-    #newContAddr {width: 100px; margin-right:20px;}
-    #toAccount {width: 100px; margin-right:20px;}
-    #sendToken {width: 100px; margin-right:20px; text-align:right;}
+    #newContAddr {width: 300px; margin-right:10px;}
+    #toAccount {width: 300px; margin-right:10px;}
+    #sendToken {width: 200px; margin-right:10px; text-align:right;}
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test2 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test3 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
@@ -543,7 +543,7 @@ function getValue(addr) {
   });
   PLAToken.balanceOf(addr,function(e,r){
     tempVar = r.toNumber()/10**18;
-    document.getElementById('balanceOf').innerHTML=tempVar(18);
+    document.getElementById('balanceOf').innerHTML=tempVar.toFixed(18);
   });
 }
 function setValue() {
