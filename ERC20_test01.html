@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
   <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
-  <title>Simple Storage Dapp 예제 </title>
+  <title>ERC20 Token management Test</title>
   <style>
     body {margin-left:50px;}
     #storedData {font-size:300%; margin-right:10px;}
@@ -12,12 +12,12 @@
   </style>
 </head>
 <body>
-<h3>Simple Storage dApp 예제 KDJ</h3>
+<h3>ERC20 Token management Test <Ropsten Testnet></h3>
 <ul>
-  <li>컨트랙트 주소 => <span id="contractAddr"></span></li>
+  <li>토큰주소 => <span id="contractAddr"></span></li>
   <li>
     <input id="newContAddr" type="text">
-    <button onClick="changeContAddr()">컨트랙트 주소 변경하기</button> </li>
+    <button onClick="changeContAddr()">토큰주소변경</button> </li>
     
   <li>내 어카운트 주소: <span id="accountAddr"></span></li>
   <li>컨트랙트에 저장된 값: <span id="storedData"></span>
@@ -67,7 +67,7 @@ function startApp() {
   getValue();
 }
 function getLink(addr) {
-  return '<a target="_blank" href=https://testnet.etherscan.io/address/' + addr + '>' + addr +'</a>';
+  return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
 }
   
   
@@ -97,7 +97,7 @@ function contHistory() {
   var resultText = "";
     
   document.getElementById('historyProgress').innerHTML="<i>seaching txs  </i>";
-  getJSON('https://testnet.etherscan.io/api?module=account&action=txlist&address='
+  getJSON('https://ropsten.etherscan.io/api?module=account&action=txlist&address='
 	+ contractAddress +
 	'&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
 	function(err, data) {
