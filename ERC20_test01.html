@@ -542,9 +542,9 @@ function getValue(addr) {
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
   });
-  PLAToken.balanceOf(addr,function(e,r){
-    document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
-  });
+  //PLAToken.balanceOf(addr,function(e,r){
+  //  document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
+  //});
 }
 function setValue() {
   var newValue = document.getElementById('newValue').value;
