@@ -19,10 +19,10 @@
     <input id="newContAddr" type="text">
     <button onClick="changeContAddr()">토큰주소변경</button>
   <li>토큰명(심볼) => KDJ9 Token Test (KDJ9)</li>
-  <li>총발행량 => <span id="totalSupply"></span>
+  <li>총발행량 =====> <span id="totalSupply"></span>
       (현재블록: <span id="lastBlock" ></span>)</li>
-  <li>내 어카운트 => <span id="accountAddr"></span></li>
-  <li>내 잔액 => <span id="balanceOf"></span></li>
+  <li>내 어카운트 ==> <span id="accountAddr"></span></li>
+  <li>내 잔액 ======> <span id="balanceOf"></span></li>
   <li><input id="newValue" type="text"><button onclick="setValue()">보내기</button>
       <div id="result"></div></li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
@@ -461,9 +461,8 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
-    accountAddress = r[0];
   });
-  getValue();
+  getValue(r[0]);
 }
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
@@ -537,14 +536,14 @@ function contHistory() {
   
   
  //=========================================================
-function getValue() {
+function getValue(var accountAddr) {
   KDJ9testToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
   });
-  KDJ9testToken.balanceOf(accountAddress,function(e,r){
+  KDJ9testToken.balanceOf(accountAddr,function(e,r){
     document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
   });
 }
