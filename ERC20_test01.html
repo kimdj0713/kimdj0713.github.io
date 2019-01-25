@@ -23,7 +23,7 @@
       (현재블록: <span id="lastBlock" ></span>)</li>
   <li>내 어카운트 => <span id="accountAddr"></span></li>
   <li>내 잔액 => <span id="balanceOf"></span></li>
-  <li><input id="newValue" type="text"><button onclick="setValue()">새 값으로 저장하기</button>
+  <li><input id="newValue" type="text"><button onclick="setValue()">보내기</button>
       <div id="result"></div></li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
   <li> <div id="historyResult"></div> </li>
@@ -461,7 +461,7 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
-    accountAddress = getLink(r[0]);
+    accountAddress = r[0];
   });
   getValue();
 }
