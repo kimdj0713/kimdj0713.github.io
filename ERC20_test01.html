@@ -8,8 +8,8 @@
   <style>
     body {margin-left:50px;}
     #name {font-size:100%; margin-right:10px;}
-    #newContAddr {width: 300px; margin-right:10px;}
-    #newValue {width: 200px; margin-right:10px; text-align:right;}
+    #newContAddr {width: 100px; margin-right:10px;}
+    #newValue {width: 100px; margin-right:10px; text-align:right;}
   </style>
 </head>
 <body>
@@ -19,11 +19,11 @@
     <input id="newContAddr" type="text">
     <button onClick="changeContAddr()">토큰주소변경</button> </li>
   <li>내 어카운트 => <span id="accountAddr"></span></li>
-  <li>총발행량 => <span id="totalSupply"></span>
+  <li>토큰명(심볼) => <span id="symbol"></span></li>
+  <li>총발행량 => <span id="_totalSupply"></span>
     <button onclick="getValue()">새로고침</button> (현재블록: <span id="lastBlock"></span>)</li>
   <li><input id="newValue" type="text"><button onclick="setValue()">새 값으로 저장하기</button>
       <div id="result"></div></li>
-  <li>새 값을 저장한 후 팬딩 트랜잭션이 블록에 포함되면 자동으로 페이지가 업데이트될 것입니다.</li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
   <li> <div id="historyResult"></div> </li>
 </ul>
@@ -32,7 +32,7 @@
 <script src="https://kimdj0713.github.io/0xf77b2909634326FE747BF08a79A22b6d3EEC4978.js"></script>
 
 HTML 소스<br>
-<a href="https://github.com/kimdj0713/kimdj0713.github.io/edit/master/SimpleStorage.html">https://github.com/kimdj0713/kimdj0713.github.io/edit/master/SimpleStorage.html</a>
+<a href="https://github.com/kimdj0713/kimdj0713.github.io/edit/master/ERC20_test01.html">https://github.com/kimdj0713/kimdj0713.github.io/edit/master/ERC20_test01.html</a>
 <br><br>
 
 </body>
@@ -543,7 +543,8 @@ function contHistory() {
  //=========================================================
 function getValue() {
   KDJ9testToken.get(function(e,r){
-    document.getElementById('totalSupply').innerHTML=r.toNumber();
+    // document.getElementById('totalSupply()').innerHTML=r.toNumber();
+    document.getElementById('symbol').innerHTML=r;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
