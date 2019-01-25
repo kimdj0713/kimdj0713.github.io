@@ -11,6 +11,7 @@
     #newContAddr {width: 400px; margin-right:10px;}
     #toAccount {width: 400px; margin-right:10px;}
     #transferTokens {width: 200px; margin-right:10px; text-align:right;}
+    #burnTokens {width: 200px; margin-right:10px; text-align:right;}
   </style>
 </head>
 <body>
@@ -19,7 +20,8 @@
   <li>토큰주소 =====> <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
     <button onClick="changeContAddr()">토큰주소변경</button>
-  <li>토큰명(심볼) ==> KDJ9 Token (KDJ9)</li>
+  <li>토큰명(심볼) ==> <span id="symbol"></span></li>
+  //<li>토큰명(심볼) ==> KDJ9 Token (KDJ9)</li>
   <li>총발행량 =====> <span id="totalSupply"></span>
       (현재블록: <span id="lastBlock" ></span>)</li>
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
@@ -538,6 +540,9 @@ function contHistory() {
 function getValue(addr) {
   var tempVar1;
   var tempVar2;
+  PLAToken.symbol(function(e,r){
+    document.getElementById('symbol').innerHTML=r;
+  });
   PLAToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toFixed(18)/10**18;
   });
