@@ -18,11 +18,12 @@
 <h3>PlayT ERC20토큰 테스트 [Roqsten TestNet] - <button onClick="window.location.reload()">새로고침</button></h3>
 <div>     < 크롬/메타마스크 로그인후 사용하세요 ></div>
 <ul>
-  <li>토큰주소 =====> <span id="contractAddr"></span>  
+  <li>토큰주소 =====> <span id="contractAddr"></span>
     <input id="newContAddr" type="text">
-    <div>                    1. PLA (exam-1) : </div>
-    <div>                    2. PLA (exam-2) : 0x6C4351A83dE549951B98BB544630C2a8e0A9967C</div>
-    <div>                    3. KDJ9 (exam-3) : 0x83888D754BCA41Aed20197fCCb1359e10e4f2db0</div>
+    <button onClick="changeContAddr()">토큰주소변경</button> </li>
+    <div> 1. PLA (exam-1) : </div>
+    <div> 2. PLA (exam-2) : 0x6C4351A83dE549951B98BB544630C2a8e0A9967C</div>
+    <div> 3. KDJ9 (exam-3) : 0x83888D754BCA41Aed20197fCCb1359e10e4f2db0</div>
   <li>토큰명(심볼) ==> <span id="name"></span> (<span id="symbol"></span>)</li>
   <li>소숫점자리수 ==> <span id="decimals"></span></li>
   <li>총발행량 =====> <span id="totalSupply"></span>
