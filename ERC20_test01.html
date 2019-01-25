@@ -18,7 +18,7 @@
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
     <button onClick="changeContAddr()">토큰주소변경</button>
-  <li>토큰명(심볼) ==> KDJ9 Token Test (KDJ9)</li>
+  <li>토큰명(심볼) ==> KDJ9 Token (KDJ9)</li>
   <li>총발행량 =====> <span id="totalSupply"></span>
       (현재블록: <span id="lastBlock" ></span>)</li>
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
@@ -439,8 +439,8 @@ var abi = [
 		"type": "event"
 	}
 ];
-var KDJ9testTokenContract;
-var KDJ9testToken;
+var PLATokenContract;
+var PLAToken;
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -455,8 +455,8 @@ window.addEventListener('load', function() {
   startApp();
 });
 function startApp() {
-  KDJ9testTokenContract = web3.eth.contract(abi);
-  KDJ9testToken = KDJ9testTokenContract.at(contractAddress);
+  PLATokenContract = web3.eth.contract(abi);
+  PLAToken = PLATokenContract.at(contractAddress);
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
@@ -536,20 +536,20 @@ function contHistory() {
   
  //=========================================================
 function getValue() {
-  KDJ9testToken.totalSupply(function(e,r){
+  PLAToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
   });
-  //KDJ9testToken.balanceOf(addr,function(e,r){
+  //PLAToken.balanceOf(addr,function(e,r){
   //  document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
   //});
 }
 function setValue() {
   var newValue = document.getElementById('newValue').value;
   var txid
-  KDJ9testToken.set(newValue, function(e,r){
+  PLAToken.set(newValue, function(e,r){
     document.getElementById('result').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
     txid = r;
   });
