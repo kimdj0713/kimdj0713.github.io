@@ -24,8 +24,10 @@
       (현재블록: <span id="lastBlock" ></span>)</li>
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
   <li>내 잔액 ======> <span id="balanceOf"></span></li>
-  <li>토큰전송 =====> <input id="toAccount" type="text"> 에게 <input id="sendToken" type="text"> 토큰 <button onclick="setValue()">보내기</button>
-      <div id="result"></div></li>
+  <li>토큰보내기 ===> <input id="toAccount" type="text"> 에게 <input id="transferTokens" type="text"> 토큰 <button onclick="transferToken()">전송</button>
+      <div id="resultTransfer"></div></li>
+  <li>토큰소각하기 ==> <input id="burnTokens" type="text"> 토큰 <button onclick="burnToken()">소각</button>
+      <div id="resultBurn"></div></li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
   <div id="historyResult"></div>
 </ul>
@@ -549,7 +551,7 @@ function getValue(addr) {
     document.getElementById('balanceOf').innerHTML=tempVar1.toFixed(18);
   });
 }
-function setValue() {
+function transferToken() {
   var newValue = document.getElementById('newValue').value;
   var txid
   PLAToken.set(newValue, function(e,r){
