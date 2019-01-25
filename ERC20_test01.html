@@ -441,6 +441,7 @@ var abi = [
 ];
 var KDJ9testTokenContract;
 var KDJ9testToken;
+var accountAddress;
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -460,6 +461,7 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
+    accountAddress = getLink(r[0]);
   });
   getValue();
 }
@@ -539,7 +541,7 @@ function getValue() {
   KDJ9testToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
-  KDJ9testToken.balanceOf(document.getElementById('accountAddr').value,function(e,r){
+  KDJ9testToken.balanceOf(accountAddress,function(e,r){
     document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
   });
   web3.eth.getBlockNumber(function(e,r){
