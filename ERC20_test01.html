@@ -13,7 +13,7 @@
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test2 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test3 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
@@ -462,7 +462,7 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
-    MyAddress = getMyAddress((r[0]);
+    MyAddress = getMyAddress(r[0]);
   });
   getValue();
 }
@@ -474,7 +474,6 @@ function getLink(addr) {
 function getMyAddress(addr) {
   return addr;
 }
-  
   
 // new function=============================================  
 function changeContAddr() {
