@@ -456,13 +456,15 @@ window.addEventListener('load', function() {
   startApp();
 });
 function startApp() {
+  var accountAddr
   KDJ9testTokenContract = web3.eth.contract(abi);
   KDJ9testToken = KDJ9testTokenContract.at(contractAddress);
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
   });
-  getValue(r[0]);
+  accountAddr = r[0];
+  getValue(accountAddr);
 }
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
