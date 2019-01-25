@@ -13,7 +13,7 @@
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test4 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test5 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
   <li>토큰주소 => <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
@@ -462,8 +462,7 @@ function startApp() {
   document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
-    //MyAddress = getMyAddress(r[0]);
-  document.getElementById('balanceOf').innerHTML=r;
+  MyAddress = r;
   });
   getValue();
 }
@@ -472,9 +471,6 @@ function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
 }
 
-function getMyAddress(addr) {
-  return addr;
-}
   
 // new function=============================================  
 function changeContAddr() {
@@ -550,9 +546,9 @@ function getValue() {
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
   });
-  //PLAToken.balanceOf(MyAddress,function(e,r){
-  //  document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
-  //});
+  PLAToken.balanceOf(MyAddress,function(e,r){
+    document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
+  });
 }
 function setValue() {
   var newValue = document.getElementById('newValue').value;
