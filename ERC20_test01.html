@@ -463,7 +463,7 @@ function startApp() {
     document.getElementById('accountAddr').innerHTML = getLink(r[0]);
     accountAddress = getLink(r[0]);
   });
-  getValue();
+  getValue(accountAddress);
 }
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
@@ -537,15 +537,15 @@ function contHistory() {
   
   
  //=========================================================
-function getValue() {
+function getValue(accountAddress) {
   KDJ9testToken.totalSupply(function(e,r){
     document.getElementById('totalSupply').innerHTML=r.toNumber()/10**18;
   });
-  KDJ9testToken.balanceOf(accountAddress,function(e,r){
-    document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
-  });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
+  });
+  KDJ9testToken.balanceOf(accountAddress,function(e,r){
+    document.getElementById('balanceOf').innerHTML=r.toNumber()/10**18;
   });
 }
 function setValue() {
