@@ -545,7 +545,8 @@ function getValue(addr) {
   PLAToken.balanceOf(addr,function(e,r){
     //tempVar1 = r.toString();
     //tempVar2 = tempVar1.substring(1,tempVar1.length-18) + '.' + tempVar1.substring(tempVar1.length-18+1,tempVar1.length);
-    document.getElementById('balanceOf').innerHTML=r.toFixed(18)/10**18;
+    tempVar1 = r.toFixed(18)/10**18;
+    document.getElementById('balanceOf').innerHTML=tempVar1.toFixed(18);
   });
 }
 function setValue() {
