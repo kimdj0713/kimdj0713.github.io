@@ -8,15 +8,15 @@
   <style>
     body {margin-left:50px;}
     #name {font-size:100%; margin-right:20px;}
-    #newContAddr {width: 300px; margin-right:10px;}
-    #toAccount {width: 300px; margin-right:10px;}
+    #newContAddr {width: 400px; margin-right:10px;}
+    #toAccount {width: 400px; margin-right:10px;}
     #sendToken {width: 200px; margin-right:10px; text-align:right;}
   </style>
 </head>
 <body>
-<h3>PlayT(PLA) Token management Test3 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
+<h3>PlayT(PLA) Token management Test1 <Ropsten Testnet> <button onClick="window.location.reload()">새로고침</button></h3>
 <ul>
-  <li>토큰주소 => <span id="contractAddr"></span>  
+  <li>토큰주소 =====> <span id="contractAddr"></span>  
     <input id="newContAddr" type="text">
     <button onClick="changeContAddr()">토큰주소변경</button>
   <li>토큰명(심볼) ==> KDJ9 Token (KDJ9)</li>
@@ -24,7 +24,7 @@
       (현재블록: <span id="lastBlock" ></span>)</li>
   <li>내 어카운트 ===> <span id="accountAddr"></span></li>
   <li>내 잔액 ======> <span id="balanceOf"></span></li>
-  <li>토큰전송 =====> <input id="toAccount" type="text"> 에게 <input id="sendToken" type="text"><button onclick="setValue()"> PLA 보내기</button>
+  <li>토큰전송 =====> <input id="toAccount" type="text"> 에게 <input id="sendToken" type="text"> 토큰 <button onclick="setValue()">보내기</button>
       <div id="result"></div></li>
   <li> <span style="color:red" id="historyProgress"></span><button onclick="contHistory()"> 최근거래내역 </button></li>
   <li> <div id="historyResult"></div> </li>
