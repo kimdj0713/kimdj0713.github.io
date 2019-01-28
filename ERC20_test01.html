@@ -44,8 +44,8 @@
   <li>관리자변경(관리자전용) ==> </li>
   <li>다음 관리자는 ==========> <span id="newOwner"></span></li>
   <li>권한받을 관리자 승인 ====> </li>
-  <span style="color:red" id="historyProgress"></span><button onclick="contHistoryMain()"> 최근거래내역(MainNet) </button>  
-        <button onclick="contHistoryRopsten()"> 최근거래내역(RopstenTestNet) </button>
+  <span style="color:red" id="historyProgress"></span><button onclick="contHistoryRopsten()"> 최근거래내역(RopstenTestNet) </button>  
+        <button onclick="contHistoryMain()"> 최근거래내역(MainNet) </button>
   <div id="historyResult"></div>
 </ul>
 
@@ -489,8 +489,8 @@ function startApp() {
 }
 
 function getLink(addr) {
-  return '<a target="_blank" href=https://etherscan.io/address/' + addr + '>' + "상세보기(MainNet)" +'</a>' + "     " +
-         "  ☞  " + '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + "상세보기(RopstenTestNet)" +'</a>';
+  return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + "상세보기(RopstenTestNet)" +'</a>' + "     " +
+         "  ☞  " + '<a target="_blank" href=https://etherscan.io/address/' + addr + '>' + "상세보기(MainNet)" +'</a>';
 }
 
 function getLinkTx(addr,tx) {
@@ -558,6 +558,50 @@ function contHistoryRopsten() {
   );
 
 }
+
+function contHistoryMain() {
+    
+  var resultArea = document.getElementById('historyResult');
+  var resultText = "";
+    
+  document.getElementById('historyProgress').innerHTML="<i>seaching txs  </i>";
+  getJSON('https://etherscan.io/api?module=account&action=txlist&address='
+	+ contractAddress +
+	'&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
+	function(err, data) {
+	  if (err != null) { //error on querying
+	  } else {
+	    var count = data.result.length;
+		var result = data.result;
+		
+		console.log(data);
+		
+		resultText += "total "+count+" txs found <br>";
+		
+		for (var i = count-1; i >= count-10; i--) {
+		  
+		  if (i<0) break;
+		  var option = document.createElement("option");
+		  option.text = result[i].blockNumber;
+		  console.log(result[i]);
+		  resultText += '<a target="_blank" href=https://etherscan.io/tx/'+result[i].hash+'>'+
+                                        "block:"+result[i].blockNumber+
+		  			" / TXhash:"+result[i].hash+'</a>'+'<br>';
+		}
+		
+		console.log(resultText);
+		
+		
+		document.getElementById('historyResult').innerHTML=resultText;
+	  
+	  }
+ 	
+	document.getElementById('historyProgress').innerHTML="";
+	}
+  );
+
+}
+
 
 function getValue() {
   var tempVar1;
