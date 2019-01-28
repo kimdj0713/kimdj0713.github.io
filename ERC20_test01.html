@@ -11,6 +11,8 @@
     #newContAddr {width: 400px; margin-right:5px;}
     #toAccount {width: 400px; margin-right:5px;}
     #transferTokens {width: 200px; margin-right:5px; text-align:right;}
+    #toAccountApprove {width: 400px; margin-right:5px;}
+    #approveTokens {width: 200px; margin-right:5px; text-align:right;}
     #burnTokens {width: 200px; margin-right:5px; text-align:right;}
   </style>
 </head>
@@ -35,7 +37,8 @@
       <div id="resultTransfer"></div></li>
   <li>토큰소각 =====> <input id="burnTokens" type="text"> 토큰  <button onclick="burnToken()">없애기</button>
       <div id="resultBurn"></div></li>
-  <li>토큰위임 =====> </li>
+  <li>토큰위임 =====> <input id="toAccountApprove" type="text"> 에게 <input id="approveTokens" type="text"> 토큰 </span> <button onclick="approveToken()">위임하기</button>
+      <div id="resultTransfer"></div></li>
   <li>위임현황 =====> </li>
   <li>위임전송 =====> </li>
   <li>위임소각 =====> </li>
@@ -652,6 +655,29 @@ function transferToken() {
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('toAccount').style.cssText ='color:green;';
         document.getElementById('transferTokens').style.cssText ='color:green;';
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function approveToken() {
+  var toAccountApprove = document.getElementById('toAccountApprove').value;
+  var approveTokens = document.getElementById('approveTokens').value;
+  var txid
+  PLAToken.approve(toAccountApprove, approveTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultApprove').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('toAccountApprove').style.cssText ='color:green;';
+        document.getElementById('approveTokens').style.cssText ='color:green;';
         filter.stopWatching();
       }
    });
