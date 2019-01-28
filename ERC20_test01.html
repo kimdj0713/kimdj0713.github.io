@@ -11,6 +11,9 @@
     #newContAddr {width: 350px; margin-right:5px;}
     #toAccount {width: 350px; margin-right:5px;}
     #transferTokens {width: 100px; margin-right:5px; text-align:right;}
+    #fromAccountTransferFrom {width: 350px; margin-right:5px;}
+    #toAccountTransferFrom {width: 350px; margin-right:5px;}
+    #transferFromTokens {width: 100px; margin-right:5px; text-align:right;}
     #toAccountApprove {width: 350px; margin-right:5px;}
     #approveTokens {width: 100px; margin-right:5px; text-align:right;}
     #fromAccountAllowance {width: 350px; margin-right:5px;}
@@ -25,7 +28,7 @@
   <li>토큰주소 =====> <span id="contractAddr"></span></li>
   <li><input id="newContAddr" type="text"> 으로 
     <button onClick="changeContAddr()">토큰변경</button> </li>
-    <div> 1. PLA  (테스트넷 exam-1) : 0x1d53CB190858F49cA1A75592Ed48a87f6EF4BC70</div>
+    <div> 1. PLA  (테스트넷 exam-1) : 0x1d53CB190858F49cA1A75592Ed48a87f6EF4BC70 ☜ 최초로딩 혹은 새로고침時 default 값</div>
     <div> 2. PLA  (메인넷 실제코인) : 0x677294C0E019145f595914BE0ea5E5DC27974Cc6</div>
     <div> 3. KDJ9 (테스트넷 exam-2) : 0x83888D754BCA41Aed20197fCCb1359e10e4f2db0</div>
     <br>
@@ -39,11 +42,15 @@
       <div id="resultTransfer"></div></li>
   <li>토큰소각 =====> <input id="burnTokens" type="text"> 토큰  <button onclick="burnToken()">없애기</button>
       <div id="resultBurn"></div></li>
-  <li>토큰위임 =====> <input id="toAccountApprove" type="text"> 에게 <input id="approveTokens" type="text"> 토큰 </span> <button onclick="approveToken()">위임하기</button>
+  <li>토큰위임 =====> <input id="toAccountApprove" type="text"> 에게 <input id="approveTokens" type="text"> 토큰 </span>
+      <button onclick="approveToken()">위임하기</button>
       <div id="resultApprove"></div></li>
-  <li>위임현황 =====> <input id="fromAccountAllowance" type="text"> 가 <input id="toAccountAllowance" type="text"> 에게 </span> <button onclick="allowanceToken()">위임한 토큰량은?</button>
+  <li>위임현황 =====> <input id="fromAccountAllowance" type="text"> 가 <input id="toAccountAllowance" type="text"> 에게 </span>
+      <button onclick="allowanceToken()">위임한 토큰량은?</button>
       <span id="allowanceTokens"></span></li>
-  <li>위임전송 =====> </li>
+  <li>위임전송 =====> <input id="fromAccountTransferFrom" type="text"> 로부터 <input id="toAccountTransferFrom" type="text"> 에게 
+      <input id="transferFromTokens" type="text"> 토큰 </span> <button onclick="transferFromToken()">대신보내기</button>
+      <div id="resultTransferFrom"></div></li>
   <li>위임소각 =====> </li>
   <li>토큰관리자 ============> <span id="owner"></span></li>
   <li>관리자변경(관리자전용) ==> </li>
@@ -696,6 +703,31 @@ function allowanceToken() {
     document.getElementById('allowanceTokens').innerHTML=tempVar1.toFixed(cDecimals)+" 토큰";
   });
 
+}
+
+function transferFromToken() {
+  var fromAccountTransferFrom = document.getElementById('toAccountTransferFrom').value;
+  var toAccountTransferFrom = document.getElementById('toAccountTransferFrom').value;
+  var transferFromTokens = document.getElementById('transferFromTokens').value;
+  var txid
+  PLAToken.transferFrom(fromAccountTransferFrom, toAccountTransferFrom, transferFromTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultTransferFrom').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('fromAccountTransferFrom').style.cssText ='color:green;';
+        document.getElementById('toAccountTransferFrom').style.cssText ='color:green;';
+        document.getElementById('transferFromTokens').style.cssText ='color:green;';
+        filter.stopWatching();
+      }
+   });
+ });
 }
 
 function burnToken() {
