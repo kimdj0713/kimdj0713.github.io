@@ -459,7 +459,6 @@ var abi = [
 ];
 var PLATokenContract;
 var PLAToken;
-var cDecimals;
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -554,6 +553,7 @@ function contHistory() {
 function getValue(addr) {
   var tempVar1;
   var tempVar2;
+  var cDecimals;
   PLAToken.name(function(e,r){
     document.getElementById('name').innerHTML=r;
   });
