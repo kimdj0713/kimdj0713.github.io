@@ -589,10 +589,11 @@ function getValue(addr) {
   });
 }
 function transferToken() {
-  var newValue = document.getElementById('newValue').value;
+  var toAccount = document.getElementById('toAcount').value;
+  var transferTokens = document.getElementById('transferTokens').value;
   var txid
-  PLAToken.set(newValue, function(e,r){
-    document.getElementById('result').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+  PLAToken.transger(toAcount, transferTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultTransfer').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
     txid = r;
   });
   var filter = web3.eth.filter('latest');
