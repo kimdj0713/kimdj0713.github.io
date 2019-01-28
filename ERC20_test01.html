@@ -693,7 +693,7 @@ function allowanceToken() {
   var tempVar1;
   PLAToken.allowance(fromAccountAllowance,toAccountAllowance,function(e,r){
     tempVar1 = r.toFixed(cDecimals)/10**cDecimals;
-    document.getElementById('allowanceTokens').innerHTML=tempVar1.toFixed(cDecimals);
+    document.getElementById('allowanceTokens').innerHTML=tempVar1.toFixed(cDecimals)+"토큰";
   });
 
 }
