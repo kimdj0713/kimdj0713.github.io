@@ -489,6 +489,10 @@ function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + addr +'</a>';
 }
 
+function getLinkTx(addr,tx) {
+  return '<a target="_blank" href=https://ropsten.etherscan.io/tx/' + tx + '>' + addr +'</a>';
+}
+
 function changeContAddr() {
   // newAccAddr validation required..
   contractAddress = document.getElementById('newContAddr').value;
@@ -512,6 +516,7 @@ function contHistory() {
     
   var resultArea = document.getElementById('historyResult');
   var resultText = "";
+  var resultTx = "";
     
   document.getElementById('historyProgress').innerHTML="<i>seaching txs  </i>";
   getJSON('https://ropsten.etherscan.io/api?module=account&action=txlist&address='
@@ -534,14 +539,14 @@ function contHistory() {
 		  option.text = result[i].blockNumber;
 		  console.log(result[i]);
 		  resultText += "block:"+result[i].blockNumber+
-						" / TXhash:"+result[i].hash+'<br>';
-			
+		  			" / TXhash:"+result[i].hash+'<br>';
+		  resultTx = result[i].hash;
 		}
 		
 		console.log(resultText);
 		
 		
-		document.getElementById('historyResult').innerHTML=resultText;
+		document.getElementById('historyResult').innerHTML=getLinkTx(resultText,resultTx);
 	  
 	  }
  	
