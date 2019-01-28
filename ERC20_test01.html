@@ -42,7 +42,7 @@
   <li>토큰위임 =====> <input id="toAccountApprove" type="text"> 에게 <input id="approveTokens" type="text"> 토큰 </span> <button onclick="approveToken()">위임하기</button>
       <div id="resultApprove"></div></li>
   <li>위임현황 =====> <input id="fromAccountAllowance" type="text"> 가 <input id="toAccountAllowance" type="text"> 에게 </span> <button onclick="allowanceToken()">위임한 토큰량은?</button>
-      <div id="allowanceTokens"></div></li>
+      <span id="allowanceTokens"></span></li>
   <li>위임전송 =====> </li>
   <li>위임소각 =====> </li>
   <li>토큰관리자 ============> <span id="owner"></span></li>
@@ -689,7 +689,7 @@ function approveToken() {
 
 function allowanceToken() {
   var fromAccountAllowance = document.getElementById('fromAccountAllowance').value;
-  var toAccountAllowance = document.getElementById('fromAccountAllowance').value;
+  var toAccountAllowance = document.getElementById('toAccountAllowance').value;
   var tempVar1;
   PLAToken.allowance(fromAccountAllowance,toAccountAllowance,function(e,r){
     tempVar1 = r.toFixed(cDecimals)/10**cDecimals;
