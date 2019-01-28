@@ -459,6 +459,7 @@ var abi = [
 ];
 var PLATokenContract;
 var PLAToken;
+var cDecimals;
 window.addEventListener('load', function() {
   // Checking if Web3 has been injected by the browser (Mist/MetaMask)
   if (typeof web3 !== 'undefined') {
@@ -558,12 +559,13 @@ function getValue(addr) {
   });
   PLAToken.symbol(function(e,r){
     document.getElementById('symbol').innerHTML=r;
+    cDecimals = r;
   });
   PLAToken.decimals(function(e,r){
     document.getElementById('decimals').innerHTML=r;
   });
   PLAToken.totalSupply(function(e,r){
-    document.getElementById('totalSupply').innerHTML=r.toFixed(18)/10**18;
+    document.getElementById('totalSupply').innerHTML=r.toFixed(18)/10**cDecimals;
   });
   web3.eth.getBlockNumber(function(e,r){
     document.getElementById('lastBlock').innerHTML = r;
