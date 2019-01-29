@@ -58,7 +58,7 @@
       <div id="resultBurnFrom"></div></li>
   <li>토큰관리자 ===> <span id="owner"></span></li>
   <li>관리자변경 ===> <input id="toAccountTransferOwnership" type="text"> 로
-      <button onclick="transferOwnership()">관리자 바꾸기(개발중)</button>
+      <button onclick="transferOwnership()">관리자 바꾸기</button>
       <div id="resulttransferOwnership"></div></li>
   <li>차기관리자 ===> <span id="newOwner"></span></li>
   <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기(개발중)</button></li>
@@ -477,6 +477,7 @@ var abi = [
 		"type": "event"
 	}
 ];
+
 var PLATokenContract;
 var PLAToken;
 var cDecimals;
@@ -494,6 +495,7 @@ window.addEventListener('load', function() {
   // Now you can start your app & access web3 freely:
   startApp();
 });
+
 function startApp() {
   var MyAddress;
   PLATokenContract = web3.eth.contract(abi);
@@ -505,18 +507,22 @@ function startApp() {
     getValue();
   });
 }
+
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + "상세보기(RopstenTestNet)" +'</a>' + "     " +
          "  ☞  " + '<a target="_blank" href=https://etherscan.io/address/' + addr + '>' + "상세보기(MainNet)" +'</a>';
 }
+
 function getLinkTx(addr,tx) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/tx/' + tx + '>' + addr +'</a>';
 }
+
 function changeContAddr() {
   // newAccAddr validation required..
   contractAddress = document.getElementById('newContAddr').value;
   startApp();
 }
+
 var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
     xhr.open('GET', url, true);
@@ -531,6 +537,7 @@ var getJSON = function(url, callback) {
     };
     xhr.send();
 };
+
 function contHistoryRopsten() {
     
   var resultArea = document.getElementById('historyResult');
@@ -572,6 +579,7 @@ function contHistoryRopsten() {
 	}
   );
 }
+
 function contHistoryMain() {
     
   var resultArea = document.getElementById('historyResult');
@@ -613,6 +621,7 @@ function contHistoryMain() {
 	}
   );
 }
+
 function getValue() {
   var tempVar1;
   var tempVar2;
@@ -645,6 +654,7 @@ function getValue() {
     document.getElementById('newOwner').innerHTML=r;
   });
 }
+
 function balanceOfAccount() {
   var accountBalanceOf = document.getElementById('accountBalanceOf').value;
   var tempVar1;
@@ -653,6 +663,7 @@ function balanceOfAccount() {
     document.getElementById('balanceOfTokens').innerHTML=tempVar1.toFixed(cDecimals)+" 토큰";
   });
 }
+
 function transferToken() {
   var toAccount = document.getElementById('toAccount').value;
   var transferTokens = document.getElementById('transferTokens').value;
@@ -675,6 +686,7 @@ function transferToken() {
    });
  });
 }
+
 function approveToken() {
   var toAccountApprove = document.getElementById('toAccountApprove').value;
   var approveTokens = document.getElementById('approveTokens').value;
@@ -697,6 +709,7 @@ function approveToken() {
    });
  });
 }
+
 function allowanceToken() {
   var fromAccountAllowance = document.getElementById('fromAccountAllowance').value;
   var toAccountAllowance = document.getElementById('toAccountAllowance').value;
@@ -706,6 +719,7 @@ function allowanceToken() {
     document.getElementById('allowanceTokens').innerHTML=tempVar1.toFixed(cDecimals)+" 토큰";
   });
 }
+
 function transferFromToken() {
   var fromAccountTransferFrom = document.getElementById('fromAccountTransferFrom').value;
   var toAccountTransferFrom = document.getElementById('toAccountTransferFrom').value;
@@ -730,6 +744,7 @@ function transferFromToken() {
    });
  });
 }
+
 function burnToken() {
   var burnTokens = document.getElementById('burnTokens').value;
   var txid;
@@ -750,6 +765,7 @@ function burnToken() {
    });
  });
 }
+
 function burnFromToken() {
   var fromAccountBurnFrom = document.getElementById('fromAccountBurnFrom').value;
   var burnFromTokens = document.getElementById('burnFromTokens').value;
@@ -772,5 +788,27 @@ function burnFromToken() {
    });
  });
 }
+
+function transferOwnership() {
+  var toAccountTransferOwnership = document.getElementById('toAccountTransferOwnership').value;
+  var txid
+  PLAToken.burnFrom(toAccountTransferOwnership, function(e,r){
+    document.getElementById('resulttransferOwnership').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('toAccountTransferOwnership').style.cssText ='color:green;';
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
 </script>
 </html>
