@@ -31,7 +31,7 @@
 <ul>
   <li>토큰주소 =====> <span id="contractAddr"></span></li>
   <li>Smart Contract <input id="newContAddr" type="text"> 으로 
-    <button onClick="changeContAddr()">토큰변경</button> </li>
+    <button onClick="changeContAddr()">변경하기</button> </li>
   <li>토큰명(심볼) ==> <span id="name"></span>(<span id="symbol"></span>)</li>
   <li>소숫점자리수 ==> <span id="decimals"></span></li>
   <li>총발행량 =====> <span id="totalSupply"></span>
@@ -518,20 +518,7 @@ function changeContAddr() {
   contractAddress = document.getElementById('newContAddr').value;
   startApp();
 }
-/* var getJSON = function(url, callback) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', url, true);
-    xhr.responseType = 'json';
-    xhr.onload = function() {
-      var status = xhr.status;
-      if (status == 200) {
-        callback(null, xhr.response);
-      } else {
-        callback(status);
-      }
-    };
-    xhr.send();
-}; */
+
 function contHistoryRopsten() {
     
   var resultArea = document.getElementById('historyResult');
