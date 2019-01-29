@@ -805,6 +805,7 @@ function transferOwnership() {
         document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('toAccountTransferOwnership').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
@@ -824,6 +825,7 @@ function acceptOwnership() {
       if (r != null && r.blockNumber > 0) {
         document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
         document.getElementById('pending').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
