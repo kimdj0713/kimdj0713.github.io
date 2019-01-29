@@ -682,6 +682,7 @@ function transferToken() {
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('toAccount').style.cssText ='color:green;';
         document.getElementById('transferTokens').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
@@ -705,6 +706,7 @@ function approveToken() {
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('toAccountApprove').style.cssText ='color:green;';
         document.getElementById('approveTokens').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
@@ -740,6 +742,7 @@ function transferFromToken() {
         document.getElementById('fromAccountTransferFrom').style.cssText ='color:green;';
         document.getElementById('toAccountTransferFrom').style.cssText ='color:green;';
         document.getElementById('transferFromTokens').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
@@ -761,6 +764,7 @@ function burnToken() {
         document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('burnTokens').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
@@ -784,6 +788,7 @@ function burnFromToken() {
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('fromAccountBurnFrom').style.cssText ='color:green;';
         document.getElementById('burnFromTokens').style.cssText ='color:green;';
+        startApp();
         filter.stopWatching();
       }
    });
