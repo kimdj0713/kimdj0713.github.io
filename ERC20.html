@@ -53,10 +53,11 @@
   <li>위임전송 =====> <input id="fromAccountTransferFrom" type="text"> 로부터 <input id="toAccountTransferFrom" type="text"> 에게 
       <input id="transferFromTokens" type="text"> 토큰 </span> <button onclick="transferFromToken()">대신 보내기</button>
       <div id="resultTransferFrom"></div></li>
-  <li>위임소각 =====> <input id="fromAccountBurnFrom" type="text"> 의 <input id="burnFromTokens" type="text"> 토큰 </span>
+  <li>위임소각 =====> <input id="fromAccountBurnFrom" type="text"> 의 <input id="burnFromTokens" type="text"> 토큰
       <button onclick="burnFromToken()">대신 없애기(개발중)</button>
+      <div id="resultBurnFrom"></div></li>
   <li>토큰관리자 ===> <span id="owner"></span></li>
-  <li>관리자변경 ===> <input id="toAccountTransferOwnership" type="text"> 로 </span>
+  <li>관리자변경 ===> <input id="toAccountTransferOwnership" type="text"> 로
       <button onclick="transferOwnership()">관리자 바꾸기(개발중)</button></li>
   <li>차기관리자 ===> <span id="newOwner"></span></li>
   <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기(개발중)</button></li>
@@ -749,5 +750,29 @@ function burnToken() {
    });
  });
 }
+
+function burnFromToken() {
+  var fromAccountBurnFrom = document.getElementById('fromAccountBurnFrom').value;
+  var burnFromTokens = document.getElementById('burnFromTokens').value;
+  var txid
+  PLAToken.burnFrom(fromAccountBurnFrom, burnFromTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultBurnFrom').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('fromAccountBurnFrom').style.cssText ='color:green;';
+        document.getElementById('burnFromTokens').style.cssText ='color:green;';
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
 </script>
 </html>
