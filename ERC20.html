@@ -58,7 +58,8 @@
       <div id="resultBurnFrom"></div></li>
   <li>토큰관리자 ===> <span id="owner"></span></li>
   <li>관리자변경 ===> <input id="toAccountTransferOwnership" type="text"> 로
-      <button onclick="transferOwnership()">관리자 바꾸기(개발중)</button></li>
+      <button onclick="transferOwnership()">관리자 바꾸기</button>
+      <div id="resulttransferOwnership"></div></li>
   <li>차기관리자 ===> <span id="newOwner"></span></li>
   <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기(개발중)</button></li>
   <span style="color:red" id="historyProgress"></span><button onclick="contHistoryRopsten()"> 최근거래내역(Ropsten) </button>  
@@ -783,6 +784,27 @@ function burnFromToken() {
         document.getElementById('pending').style.cssText ='color:green;';
         document.getElementById('fromAccountBurnFrom').style.cssText ='color:green;';
         document.getElementById('burnFromTokens').style.cssText ='color:green;';
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+transferOwnership() {
+  var toAccountTransferOwnership = document.getElementById('toAccountTransferOwnership').value;
+  var txid
+  PLAToken.transferOwnership(toAccountTransferOwnership, function(e,r){
+    document.getElementById('resulttransferOwnership').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('toAccountTransferOwnership').style.cssText ='color:green;';
         filter.stopWatching();
       }
    });
