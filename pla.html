@@ -503,9 +503,9 @@ function startApp() {
   var MyAddress;
   PLATokenContract = web3.eth.contract(abi);
   PLAToken = PLATokenContract.at(contractAddress);
-  document.getElementById('contractAddr').innerHTML = contractAddress + "  ☞  " + getLink(contractAddress);
+  document.getElementById('contractAddr').innerHTML = contractAddress + "&nbsp;&nbsp;&nbsp;  ☞  " + getLink(contractAddress);
   web3.eth.getAccounts(function(e,r){
-    document.getElementById('accountAddr').innerHTML = r[0] + "  ☞  " + getLink(r[0]);
+    document.getElementById('accountAddr').innerHTML = r[0] + "&nbsp;&nbsp;&nbsp;  ☞  " + getLink(r[0]);
     accountAddress = r;
     getValue();
   });
@@ -513,7 +513,7 @@ function startApp() {
 
 function getLink(addr) {
   return '<a target="_blank" href=https://ropsten.etherscan.io/address/' + addr + '>' + "상세보기(RopstenTestNet)" +'</a>' + "     " +
-         "  ☞  " + '<a target="_blank" href=https://etherscan.io/address/' + addr + '>' + "상세보기(MainNet)" +'</a>';
+         "&nbsp;&nbsp;&nbsp;  ☞  " + '<a target="_blank" href=https://etherscan.io/address/' + addr + '>' + "상세보기(MainNet)" +'</a>';
 }
 
 function getLinkTx(addr,tx) {
