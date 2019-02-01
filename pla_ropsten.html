@@ -26,7 +26,7 @@
   </style>
 </head>
 <body>
-<h3>【 테스트넷 】&nbsp;PlayT ERC20 Token PLA Management &nbsp;</style>&nbsp;&nbsp;&nbsp;<button onClick="window.location.reload()">새로고침</button>
+<h3>【 테스트넷 】&nbsp;PlayT ERC20 Token PLA Management &nbsp;</style>&nbsp;&nbsp;<button onClick="window.location.reload()">새로고침</button>
     &nbsp;<button onClick="goUrl('kimdj0713.github.io/pla_main.html')">메인넷으로 바로가기</button></h3>
 <h6 style="color:red;">< 크롬/메타마스크 로그인후 사용하세요 ></h6>
 <ol>
@@ -64,7 +64,7 @@
   <li>차기관리자 ===> <span id="newOwner"></span></li>
   <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기</button>
       <div id="resultacceptOwnership"></div></li>
-  <li><span style="color:red" id="historyProgress"></span><button onclick="contHistoryRopsten()">최근거래내역</button></li>
+  <li><span style="color:red" id="historyProgress"></span><button onclick="contHistory()">최근거래내역</button></li>
   <div id="historyResult"></div>
 </ol>
 
@@ -538,49 +538,7 @@ var getJSON = function(url, callback) {
     xhr.send();
 };
 
-function contHistoryRopsten() {
-    
-  var resultArea = document.getElementById('historyResult');
-  var resultText = "";
-    
-  document.getElementById('historyProgress').innerHTML="<i>seaching txs  </i>";
-  getJSON('https://ropsten.etherscan.io/api?module=account&action=txlist&address='
-	+ contractAddress +
-	'&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
-	function(err, data) {
-	  if (err != null) { //error on querying
-	  } else {
-	    var count = data.result.length;
-		var result = data.result;
-		
-		console.log(data);
-		
-		resultText += "total "+count+" txs found <br>";
-		
-		for (var i = count-1; i >= count-10; i--) {
-		  
-		  if (i<0) break;
-		  var option = document.createElement("option");
-		  option.text = result[i].blockNumber;
-		  console.log(result[i]);
-		  resultText += '<a target="_blank" href=https://ropsten.etherscan.io/tx/'+result[i].hash+'>'+
-                                        "block:"+result[i].blockNumber+
-		  			" / TXhash:"+result[i].hash+'</a>'+'<br>';
-		}
-		
-		console.log(resultText);
-		
-		
-		document.getElementById('historyResult').innerHTML=resultText;
-	  
-	  }
- 	
-	document.getElementById('historyProgress').innerHTML="";
-	}
-  );
-}
-
-function contHistoryMain() {
+function contHistory() {
     
   var resultArea = document.getElementById('historyResult');
   var resultText = "";
@@ -653,6 +611,7 @@ function getValue() {
   PLAToken.newOwner(function(e,r){
     document.getElementById('newOwner').innerHTML=r;
   });
+  contHistory();
 }
 
 function balanceOfAccount() {
