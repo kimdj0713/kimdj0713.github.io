@@ -544,7 +544,7 @@ function contHistory() {
   var resultText = "";
     
   document.getElementById('historyProgress').innerHTML="<i>seaching txs  </i>";
-  getJSON('https://etherscan.io/api?module=account&action=txlist&address='
+  getJSON('https://api.etherscan.io/api?module=account&action=txlist&address='
 	+ contractAddress +
 	'&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
 	function(err, data) {
