@@ -26,15 +26,13 @@
   </style>
 </head>
 <body>
-<h3>【 테스트넷 】PlayT ERC20 Token PLA Management &nbsp;</style>&nbsp;&nbsp;&nbsp;<button onClick="window.location.reload()">새로고침</button>
-    &nbsp;<button onClick="goMainNet('kimdj0713.github.io/pla.html')">메인넷으로 바로가기</button></h3>
+<h3>【 테스트넷 】&nbsp;PlayT ERC20 Token PLA Management &nbsp;</style>&nbsp;&nbsp;&nbsp;<button onClick="window.location.reload()">새로고침</button>
+    &nbsp;<button onClick="goUrl('kimdj0713.github.io/pla_main.html')">메인넷으로 바로가기</button></h3>
 <h6 style="color:red;">< 크롬/메타마스크 로그인후 사용하세요 ></h6>
 <ol>
   <li>토큰주소 =====> <span id="contractAddr"></span></li>
   <li><input id="newContAddr" type="text"> 토큰으로 
     <button onClick="changeContAddr()">변경하기</button></li>
-    <p> &nbsp;&nbsp;&nbsp;&nbsp;- TestNet PLA 토큰주소 : 0x1d53CB190858F49cA1A75592Ed48a87f6EF4BC70<br>
-        &nbsp;&nbsp;&nbsp;&nbsp;- MainNet PLA 토큰주소 : 0x677294C0E019145f595914BE0ea5E5DC27974Cc6</p>
   <li>토큰명(심볼) ==> <span id="name" style="color:green;"></span>(<span id="symbol" style="color:red;"></span>)</li>
   <li>소숫점자리수 ==> <span id="decimals"></span></li>
   <li>총발행량 =====> <span id="totalSupply"></span>
@@ -66,7 +64,7 @@
   <li>차기관리자 ===> <span id="newOwner"></span></li>
   <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기</button>
       <div id="resultacceptOwnership"></div></li>
-  <span style="color:red" id="historyProgress"></span><button onclick="contHistoryRopsten()">최근거래내역</button>
+  <li><span style="color:red" id="historyProgress"></span><button onclick="contHistoryRopsten()">최근거래내역</button></li>
   <div id="historyResult"></div>
 </ol>
 
@@ -521,8 +519,7 @@ function changeContAddr() {
   startApp();
 }
 
-function goMainNet(url) {
-  //return '<a target="" href=https://kimdj0713.github.io/pla_ropsten.html' + tx + '>' + addr +'</a>';
+function goUrl(url) {
   window.location.href = 'https://' + url;
 }
 
