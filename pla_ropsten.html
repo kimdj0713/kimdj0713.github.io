@@ -605,7 +605,7 @@ function contHistoryMain() {
 		  var option = document.createElement("option");
 		  option.text = result[i].blockNumber;
 		  console.log(result[i]);
-		  resultText += '<a target="_blank" href=https://etherscan.io/tx/'+result[i].hash+'>'+
+		  resultText += '<a target="_blank" href=https://ropsten.etherscan.io/tx/'+result[i].hash+'>'+
                                         "block:"+result[i].blockNumber+
 		  			" / TXhash:"+result[i].hash+'</a>'+'<br>';
 		}
