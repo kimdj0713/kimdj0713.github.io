@@ -524,7 +524,10 @@ function goUrl(url) {
   window.location.href = 'https://' + url;
 }
 
-
+function listHolders() {
+  var urlHolder = 'https://ropsten.etherscan.io/token/' + contractAddress + '#balance';
+  window.open(urlHolder,'_blank')';
+}
 
 var getJSON = function(url, callback) {
     var xhr = new XMLHttpRequest();
