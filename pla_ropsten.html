@@ -64,7 +64,7 @@
   <li>차기관리자 ===> <span id="newOwner"></span></li>
   <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기</button>
       <div id="resultacceptOwnership"></div></li>
-  <li><button onclick="listHolders()">토큰보유홀더</button></li>
+  <li><button onclick="holdersList()">토큰보유홀더</button></li>
   <li><button onclick="contHistory()">최근거래내역</button>&nbsp;&nbsp;<span style="color:red" id="historyProgress"></span></li>
   <div id="historyResult"></div>
 </ol>
@@ -524,9 +524,9 @@ function goUrl(url) {
   window.location.href = 'https://' + url;
 }
 
-function listHolders() {
-  var urlHolder = 'https://ropsten.etherscan.io/token/' + contractAddress + '#balance';
-  window.open(urlHolder,'_blank')';
+function holdersList() {
+  var newWindow = window.open("about:blank");
+  window.location.href = 'https://ropsten.etherscan.io/token/' + contractAddress + '#balance';
 }
 
 var getJSON = function(url, callback) {
