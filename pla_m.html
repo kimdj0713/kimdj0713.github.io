@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="CACHE-CONTROL" content="NO-CACHE">
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.2.3/milligram.min.css">
+  <title>PlayT ERC20 Token management</title>
+  <style>
+    body {margin-left:50px;}
+    #name {font-size:100%; margin-right:5px;}
+    #newContAddr {width: 350px; margin-right:5px;}
+    #accountBalanceOf {width: 350px; margin-right:5px;}
+    #toAccount {width: 350px; margin-right:5px;}
+    #transferTokens {width: 100px; margin-right:5px; text-align:right;}
+    #fromAccountTransferFrom {width: 350px; margin-right:5px;}
+    #toAccountTransferFrom {width: 350px; margin-right:5px;}
+    #transferFromTokens {width: 100px; margin-right:5px; text-align:right;}
+    #toAccountApprove {width: 350px; margin-right:5px;}
+    #approveTokens {width: 100px; margin-right:5px; text-align:right;}
+    #fromAccountAllowance {width: 350px; margin-right:5px;}
+    #toAccountAllowance {width: 350px; margin-right:5px;}
+    #burnTokens {width: 100px; margin-right:5px; text-align:right;}
+    #fromAccountBurnFrom {width: 350px; margin-right:5px;}
+    #burnFromTokens {width: 100px; margin-right:5px; text-align:right;}
+    #toAccountTransferOwnership {width: 350px; margin-right:5px;}
+  </style>
+</head>
+<body oncontextmenu="return false">
+<h3>PlayT ERC20 Token PLA Management &nbsp;</style>&nbsp;&nbsp;<button onClick="startApp()">새로고침</button>
+    &nbsp;<button onClick="window.location.reload()">초기화면</button>
+    &nbsp;<button onClick="goUrl('kimdj0713.github.io/pla_r.html')">테스트넷으로 바로가기</button></h3>
+<h6 style="color:red;">< 사용전에 크롬/메타마스크 로그인 후 "이더리움 메인넷" 네트워크를 선택하세요 ></h6>
+<ol>
+  <li>토큰주소 =====> <span id="contractAddr"></span></li>
+  <li>토큰주소 <input id="newContAddr" type="text"> 의 토큰
+    <button onClick="changeContAddr()">조회하기</button></li>
+  <li>토큰명(심볼) ==> <span id="name" style="color:green;"></span>(<span id="symbol" style="color:red;"></span>)</li>
+  <li>소숫점자리수 ==> <span id="decimals"></span></li>
+  <li>총발행량 =====> <span id="totalSupply"></span>
+      (현재블록: <span id="lastBlock" ></span>)</li>
+  <li>내 어카운트 ===> <span id="accountAddr"></span></li>
+  <li>내 잔액 ======> <span id="balanceOf"></span></li>
+  <li>개인주소 <input id="accountBalanceOf" type="text"> 의 <button onclick="balanceOfAccount()">잔액은?</button>
+      <span id="balanceOfTokens"></span></li>
+  <li>토큰전송 =====> <input id="toAccount" type="text"> 에게 <input id="transferTokens" type="text"> 토큰 </span> <button onclick="transferToken()">보내기</button>
+      <div id="resultTransfer"></div></li>
+  <li>토큰소각 =====> <input id="burnTokens" type="text"> 토큰  <button onclick="burnToken()">없애기</button>
+      <div id="resultBurn"></div></li>
+  <li>토큰위임 =====> <input id="toAccountApprove" type="text"> 에게 <input id="approveTokens" type="text"> 토큰 </span>
+      <button onclick="approveToken()">위임하기</button>
+      <div id="resultApprove"></div></li>
+  <li>위임현황 =====> <input id="fromAccountAllowance" type="text"> 가 <input id="toAccountAllowance" type="text"> 에게
+      <button onclick="allowanceToken()">위임한 토큰량은?</button>
+      <span id="allowanceTokens"></span></li>
+  <li>위임전송 =====> <input id="fromAccountTransferFrom" type="text"> 의 <input id="transferFromTokens" type="text"> 토큰을 
+      <input id="toAccountTransferFrom" type="text"> 에게 </span> <button onclick="transferFromToken()">대신 보내기</button>
+      <div id="resultTransferFrom"></div></li>
+  <li>위임소각 =====> <input id="fromAccountBurnFrom" type="text"> 의 <input id="burnFromTokens" type="text"> 토큰
+      <button onclick="burnFromToken()">대신 없애기</button>
+      <div id="resultBurnFrom"></div></li>
+  <li>토큰관리자 ===> <span id="owner"></span></li>
+  <li>관리자변경 ===> <input id="toAccountTransferOwnership" type="text"> 로
+      <button onclick="transferOwnership()">관리자 바꾸기</button>
+      <div id="resulttransferOwnership"></div></li>
+  <li>차기관리자 ===> <span id="newOwner"></span></li>
+  <li>관리자 승인 ==> <button onclick="acceptOwnership()">관리자권한 받기</button>
+      <div id="resultacceptOwnership"></div></li>
+  <li><button onclick="holdersList()">토큰보유자 보기</button></li>
+  <li><button onclick="transferList()">토큰전송내역 보기</button></li>
+  <li><button onclick="contHistory()">최근트랜잭션 보기</button>&nbsp;&nbsp;<span style="color:red" id="historyProgress"></span></li>
+  <div id="historyResult"></div>
+</ol>
+
+</body>
+<script src="https://cdn.rawgit.com/ethereum/web3.js/develop/dist/web3.js"></script>
+<!-- script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script -->
+<script>
+var contractAddress = '0x677294C0E019145f595914BE0ea5E5DC27974Cc6';
+var abi = [
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "approve",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "totalSupply",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "decimals",
+		"outputs": [
+			{
+				"name": "",
+				"type": "uint8"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "burn",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "tokenOwner",
+				"type": "address"
+			}
+		],
+		"name": "balanceOf",
+		"outputs": [
+			{
+				"name": "balance",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "acceptOwnership",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "burnFrom",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "owner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "symbol",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "transfer",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			},
+			{
+				"name": "data",
+				"type": "bytes"
+			}
+		],
+		"name": "approveAndCall",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "newOwner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "tokenAddress",
+				"type": "address"
+			},
+			{
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "transferAnyERC20Token",
+		"outputs": [
+			{
+				"name": "success",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "tokenOwner",
+				"type": "address"
+			},
+			{
+				"name": "spender",
+				"type": "address"
+			}
+		],
+		"name": "allowance",
+		"outputs": [
+			{
+				"name": "remaining",
+				"type": "uint256"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "_newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	},
+	{
+		"payable": true,
+		"stateMutability": "payable",
+		"type": "fallback"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "Burn",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "_from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "_to",
+				"type": "address"
+			}
+		],
+		"name": "OwnershipTransferred",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "Transfer",
+		"type": "event"
+	},
+	{
+		"anonymous": false,
+		"inputs": [
+			{
+				"indexed": true,
+				"name": "tokenOwner",
+				"type": "address"
+			},
+			{
+				"indexed": true,
+				"name": "spender",
+				"type": "address"
+			},
+			{
+				"indexed": false,
+				"name": "tokens",
+				"type": "uint256"
+			}
+		],
+		"name": "Approval",
+		"type": "event"
+	}
+];
+
+var PLATokenContract;
+var PLAToken;
+var cDecimals;
+var accountAddress;
+window.addEventListener('load', function() {
+  // Checking if Web3 has been injected by the browser (Mist/MetaMask)
+  if (typeof web3 !== 'undefined') {
+    // Use Mist/MetaMask's provider
+    window.web3 = new Web3(web3.currentProvider);
+  } else {
+    console.log('No web3? You should consider trying MetaMask!')
+    // fallback - use your fallback strategy (local node / hosted node + in-dapp id mgmt / fail)
+    window.web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+  }
+  // Now you can start your app & access web3 freely:
+  startApp();
+});
+
+function startApp() {
+  var MyAddress;
+  PLATokenContract = web3.eth.contract(abi);
+  PLAToken = PLATokenContract.at(contractAddress);
+  document.getElementById('contractAddr').innerHTML = getLink(contractAddress);
+  web3.eth.getAccounts(function(e,r){
+    document.getElementById('accountAddr').innerHTML = getLink(r[0]);
+    accountAddress = r;
+    getValue();
+  });
+}
+
+function getLink(addr) {
+  return '<a target="_blank" href=https://etherscan.io/address/' + addr + '>' + addr + '</a>';
+}
+
+function changeContAddr() {
+  // newAccAddr validation required..
+  contractAddress = document.getElementById('newContAddr').value;
+  startApp();
+}
+
+function goUrl(url) {
+  window.location.href = 'https://' + url;
+}
+
+function transferList() {
+  var newWindow = window.open("about:blank");
+  newWindow.location.href = 'https://etherscan.io/token/' + contractAddress;
+}
+
+function holdersList() {
+  var newWindow = window.open("about:blank");
+  newWindow.location.href = 'https://etherscan.io/token/' + contractAddress + '#balances';
+}
+
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', url, true);
+    xhr.responseType = 'json';
+    xhr.onload = function() {
+      var status = xhr.status;
+      if (status == 200) {
+        callback(null, xhr.response);
+      } else {
+        callback(status);
+      }
+    };
+    xhr.send();
+};
+
+function contHistory() {
+    
+  var resultArea = document.getElementById('historyResult');
+  var resultText = "";
+    
+  document.getElementById('historyProgress').innerHTML="<i>seaching txs  </i>";
+  getJSON('https://api.etherscan.io/api?module=account&action=txlist&address='
+	+ contractAddress +
+	'&startblock=0&endblock=99999999&sort=asc&apikey=YourApiKeyToken',
+	function(err, data) {
+	  if (err != null) { //error on querying
+	  } else {
+	    var count = data.result.length;
+		var result = data.result;
+		
+		console.log(data);
+		
+		resultText += "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;total "+count+" txs found <br>";
+		
+		for (var i = count-1; i >= count-10; i--) {
+		  
+		  if (i<0) break;
+		  var option = document.createElement("option");
+		  option.text = result[i].blockNumber;
+		  console.log(result[i]);
+		  resultText += '<a target="_blank" href=https://etherscan.io/tx/'+result[i].hash+'>'+
+                                        "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Block:"+result[i].blockNumber+
+		  			" / Tx:"+result[i].hash+'</a>'+'<br>';
+		}
+		
+		console.log(resultText);
+		
+		
+		document.getElementById('historyResult').innerHTML=resultText;
+	  
+	  }
+ 	
+	document.getElementById('historyProgress').innerHTML="";
+	}
+  );
+}
+
+function getValue() {
+  var tempVar1;
+  var tempVar2;
+  PLAToken.name(function(e,r){
+    document.getElementById('name').innerHTML=r;
+  });
+  PLAToken.symbol(function(e,r){
+    document.getElementById('symbol').innerHTML=r;
+  });
+  PLAToken.decimals(function(e,r){
+    document.getElementById('decimals').innerHTML=r;
+    cDecimals = r;
+  });
+  PLAToken.totalSupply(function(e,r){
+    document.getElementById('totalSupply').innerHTML=r.toFixed(18)/10**cDecimals;
+  });
+  web3.eth.getBlockNumber(function(e,r){
+    document.getElementById('lastBlock').innerHTML = r;
+  });
+  PLAToken.balanceOf(accountAddress,function(e,r){
+    //tempVar1 = r.toString();
+    //tempVar2 = tempVar1.substring(1,tempVar1.length-cDecimals) + '.' + tempVar1.substring(tempVar1.length-cDecimals+1,tempVar1.length);
+    tempVar1 = r.toFixed(cDecimals)/10**cDecimals;
+    document.getElementById('balanceOf').innerHTML=tempVar1.toFixed(cDecimals);
+  });
+  PLAToken.owner(function(e,r){
+    document.getElementById('owner').innerHTML=r;
+  });
+  PLAToken.newOwner(function(e,r){
+    document.getElementById('newOwner').innerHTML=r;
+  });
+  contHistory();
+}
+
+function balanceOfAccount() {
+  var accountBalanceOf = document.getElementById('accountBalanceOf').value;
+  var tempVar1;
+  PLAToken.balanceOf(accountBalanceOf,function(e,r){
+    tempVar1 = r.toFixed(cDecimals)/10**cDecimals;
+    document.getElementById('balanceOfTokens').innerHTML=tempVar1.toFixed(cDecimals)+" 토큰";
+  });
+}
+
+function transferToken() {
+  var toAccount = document.getElementById('toAccount').value;
+  var transferTokens = document.getElementById('transferTokens').value;
+  var txid
+  PLAToken.transfer(toAccount, transferTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultTransfer').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('toAccount').style.cssText ='color:green;';
+        document.getElementById('transferTokens').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function approveToken() {
+  var toAccountApprove = document.getElementById('toAccountApprove').value;
+  var approveTokens = document.getElementById('approveTokens').value;
+  var txid
+  PLAToken.approve(toAccountApprove, approveTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultApprove').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('toAccountApprove').style.cssText ='color:green;';
+        document.getElementById('approveTokens').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function allowanceToken() {
+  var fromAccountAllowance = document.getElementById('fromAccountAllowance').value;
+  var toAccountAllowance = document.getElementById('toAccountAllowance').value;
+  var tempVar1;
+  PLAToken.allowance(fromAccountAllowance,toAccountAllowance,function(e,r){
+    tempVar1 = r.toFixed(cDecimals)/10**cDecimals;
+    document.getElementById('allowanceTokens').innerHTML=tempVar1.toFixed(cDecimals)+" 토큰";
+  });
+}
+
+function transferFromToken() {
+  var fromAccountTransferFrom = document.getElementById('fromAccountTransferFrom').value;
+  var toAccountTransferFrom = document.getElementById('toAccountTransferFrom').value;
+  var transferFromTokens = document.getElementById('transferFromTokens').value;
+  var txid
+  PLAToken.transferFrom(fromAccountTransferFrom, toAccountTransferFrom, transferFromTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultTransferFrom').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('fromAccountTransferFrom').style.cssText ='color:green;';
+        document.getElementById('toAccountTransferFrom').style.cssText ='color:green;';
+        document.getElementById('transferFromTokens').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function burnToken() {
+  var burnTokens = document.getElementById('burnTokens').value;
+  var txid;
+  PLAToken.burn(burnTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultBurn').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('burnTokens').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function burnFromToken() {
+  var fromAccountBurnFrom = document.getElementById('fromAccountBurnFrom').value;
+  var burnFromTokens = document.getElementById('burnFromTokens').value;
+  var txid
+  PLAToken.burnFrom(fromAccountBurnFrom, burnFromTokens*10**cDecimals, function(e,r){
+    document.getElementById('resultBurnFrom').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('fromAccountBurnFrom').style.cssText ='color:green;';
+        document.getElementById('burnFromTokens').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function transferOwnership() {
+  var toAccountTransferOwnership = document.getElementById('toAccountTransferOwnership').value;
+  var txid
+  PLAToken.transferOwnership(toAccountTransferOwnership, function(e,r){
+    document.getElementById('resulttransferOwnership').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        document.getElementById('toAccountTransferOwnership').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+function acceptOwnership() {
+  var txid
+  PLAToken.acceptOwnership(function(e,r){
+    document.getElementById('resultacceptOwnership').innerHTML = 'Transaction id: ' + r + '<span id="pending" style="color:red;">(Pending)</span>';
+    txid = r;
+  });
+  var filter = web3.eth.filter('latest');
+  filter.watch(function(e, r) {
+    getValue();
+    web3.eth.getTransaction(txid, function(e,r){
+      if (r != null && r.blockNumber > 0) {
+        document.getElementById('pending').innerHTML = '(기록된 블록: ' + r.blockNumber + ')';
+        document.getElementById('pending').style.cssText ='color:green;';
+        startApp();
+        filter.stopWatching();
+      }
+   });
+ });
+}
+
+</script>
+</html>
