@@ -614,7 +614,7 @@ function getValue() {
     document.getElementById('totalSupply').innerHTML=r.toFixed(18)/10**cDecimals;
   });
   web3.eth.getBlockNumber(function(e,r){
-    document.getElementById('lastBlock').innerHTML = getBlockLink(r[0]);
+    document.getElementById('lastBlock').innerHTML = getBlockLink(r);
   });
   PLAToken.balanceOf(accountAddress,function(e,r){
     //tempVar1 = r.toString();
